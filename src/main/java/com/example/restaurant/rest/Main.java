@@ -24,8 +24,5 @@ public class Main {
     System.out.println("Starting grizzly...");
     HttpServer httpServer = startServer();
     System.out.printf("Jersey app started with WADL available at %sapplication.wadl%n", BASE_URI);
-    System.out.println("Hit enter to stop it...");
-    System.in.read();
-    httpServer.shutdownNow();
   }
 }
