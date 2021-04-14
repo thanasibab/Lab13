@@ -76,8 +76,7 @@
           <groupId>org.glassfish.jaxb</groupId>
           <artifactId>jaxb-runtime</artifactId>
           <version>2.3.2</version>
-      </dependency> 
-         
+      </dependency>    
   </dependencies>
 
     <profiles>
@@ -105,8 +104,25 @@
         </profile>
     </profiles>  
 
-  <!-- <build>
+  <build>
     <plugins>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>analyze</id>
+            <goals>
+              <goal>analyze-only</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <ignoredUnusedDeclaredDependencies>
+            <dependency>org.glassfish.jersey.inject:jersey-hk2</dependency>
+          </ignoredUnusedDeclaredDependencies>
+        </configuration>
+      </plugin>
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
         <version>2.21.0</version>
@@ -119,37 +135,40 @@
           </execution>
         </executions>
       </plugin>
-      <plugin> 
-        <artifactId>maven-dependency-plugin</artifactId> 
-        <executions> 
-          <execution> 
-            <phase>install</phase> 
-            <goals> 
-              <goal>copy-dependencies</goal> 
-            </goals> 
-            <configuration> 
-              <outputDirectory>${project.build.directory}/lib</outputDirectory> 
-            </configuration> 
-          </execution> 
-        </executions> 
-      </plugin> 
-
       <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jar-plugin</artifactId>
-          <configuration>
-              <archive>
-                  <manifest>
-                      <addClasspath>true</addClasspath>
-                      <classpathPrefix>lib</classpathPrefix>
-                      <mainClass>com.example.restaurant.rest.Main</mainClass>
-                  </manifest>
-                  <manifestEntries>
-                      <Class-Path>lib/</Class-Path>
-                  </manifestEntries>
-              </archive>
-          </configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>com.example.restaurant.rest.Main</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <executions>
+          <execution>
+            <id>default-jar</id>
+            <phase/>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
-  </build> -->
+  </build>
 </project>

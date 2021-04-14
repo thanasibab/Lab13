@@ -10,7 +10,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 public class Main {
 
   private static URI getBaseURI() {
-    return UriBuilder.fromUri("http://localhost/").port(80).build();
+    return UriBuilder.fromUri("http://localhost/").port(8080).build();
   }
 
   static final URI BASE_URI = getBaseURI();
